@@ -4,7 +4,17 @@ from utilities.find_fx_rate import fx
 
 
 def file_ops(file, user_input, rates):
-    """Calculates tax."""
+    """
+    Calculates tax based on transactions in the provided Excel file.
+
+    Parameters:
+    file (str): The path to the Excel file containing the transaction data.
+    user_input (str): The year for which the tax calculation is being performed.
+    rates (str): Path to Excel file containing exchange rates, from NBP.
+
+    Returns:
+    None. Prints the calculated expenses, income, taxable income, and tax to be paid.
+    """
     expenses = 0
     income = 0
 
@@ -37,7 +47,18 @@ def file_ops(file, user_input, rates):
 
 
 def append_sheets(user_input, origin_sheet, sell_sheet, buy_sheet):
-    """Finds relevant transactions for year chosen by user."""
+    """
+    Filters and appends relevant transactions to separate sheets based on the transaction type and year.
+
+    Parameters:
+    user_input (str): The year for which transactions are being filtered.
+    origin_sheet (Worksheet): The original worksheet containing all transaction data.
+    sell_sheet (Worksheet): The worksheet where 'SELL - MARKET' transactions will be appended.
+    buy_sheet (Worksheet): The worksheet where 'BUY - MARKET' transactions will be appended.
+
+    Returns:
+    tuple: A tuple containing the updated sell_sheet and buy_sheet with the relevant transactions appended.
+    """
 
     for row in range(2, origin_sheet.max_row + 1):
         if origin_sheet.cell(row=row, column=1).value[:4].split('T')[0][:4] == user_input and \

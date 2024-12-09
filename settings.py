@@ -11,7 +11,7 @@ class BaseSettings:
 class DevSettings(BaseSettings):
     """Developer settings"""
 
-    ROOT = r'C:\Users\gianm\OneDrive - IQVIA\Desktop\PodatStock'
+    ROOT = r'C:\Users\gianm\OneDrive\Desktop\PodatStock'
     RATES = ROOT + r'\NBP rates.xlsx'
     INPUTS = ROOT + r'\Files To Be Processed'
 
