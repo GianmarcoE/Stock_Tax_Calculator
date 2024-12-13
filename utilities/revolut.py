@@ -1,6 +1,8 @@
 import openpyxl
 import datetime
+from utilities import NBP_APIs
 from utilities.find_fx_rate import fx
+from utilities import user_interactions
 
 
 def file_ops(file, user_input, rates):
@@ -31,8 +33,10 @@ def file_ops(file, user_input, rates):
         for row in range(1, sheet.max_row + 1):
             date = sheet.cell(row=row, column=1).value.split('T')[0]
             transaction_date = datetime.datetime.strptime(date, '%Y-%m-%d')
+            exchange_date = transaction_date - datetime.timedelta(days=1)
             currency = sheet.cell(row=row, column=7).value
-            fx_rate = fx(transaction_date, currency, rates, False)
+            fx_rate = NBP_APIs.api_request(currency, exchange_date)
+            # fx_rate = fx(transaction_date, currency, rates, False)
             sheet.cell(row=row, column=9).value = fx_rate
             sheet.cell(row=row, column=10).value = sheet.cell(row=row, column=6).value * fx_rate
             if sheet == sell_sheet:
@@ -40,9 +44,7 @@ def file_ops(file, user_input, rates):
             else:
                 expenses += sheet.cell(row=row, column=10).value
 
-    print(f'Expenses: {round(expenses, 2)}, Income: {round(income, 2)}')
-    print(f'Taxable income (for tax declaration): {round(income - expenses, 2)}')
-    print(f'Tax to pay: {round((income - expenses) * 0.19, 2)}')
+    user_interactions.results(expenses, income)
     # revolut_file.save(file)
 
 
