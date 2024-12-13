@@ -4,7 +4,7 @@ import datetime
 
 def fx(transaction_date, currency, rates, repeat) -> float:
     """
-    Retrieves exchange rate from NBP Excel file.
+    Retrieves exchange rate from NBP Excel file, in case APIs are down.
 
     This function retrieves the exchange rate for a given currency on a specified transaction date (-1)
     from an Excel file containing historical exchange rates. If the rate is not found for the given
