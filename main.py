@@ -1,5 +1,5 @@
 from settings import DevSettings, ProdSettings
-from utilities import revolut, user_interactions
+from utilities import revolut, degiro, user_interactions
 import os
 
 
@@ -19,8 +19,8 @@ def main(dev_run):
     for file in os.listdir(input_folder):
         if file.startswith('Revolut'):
             revolut.file_ops(os.path.join(input_folder, file), user_input, None)
-        # elif file.startswith('Degiro'):
-        #     degiro.file_ops(os.path.join(input_folder, file), user_input)
+        elif file.startswith('Degiro'):
+            degiro.file_ops(os.path.join(input_folder, file), user_input, None)
 
 
 if __name__ == '__main__':

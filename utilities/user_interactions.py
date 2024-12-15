@@ -8,10 +8,12 @@ def year_error():
 
 
 def loading(user_input):
-    print(f'Calculating taxes for year: {user_input} (PIT-38 to submit in {int(user_input) + 1})')
+    print(f'Calculating taxes for year: {user_input} (PIT-38 to submit in {int(user_input) + 1})\n')
 
 
-def results(expenses, income):
-    print(f'Expenses: {round(expenses, 2)}, Income: {round(income, 2)}')
+def results(expenses, income, platform):
+    if platform == 'Degiro':
+        expenses *= -1
+    print(f'{platform}\nExpenses: {round(expenses, 2)}, Income: {round(income, 2)}')
     print(f'Taxable income (for tax declaration): {round(income - expenses, 2)}')
-    print(f'Tax to pay: {round((income - expenses) * 0.19, 2)}')
+    print(f'Tax to pay: {round((income - expenses) * 0.19, 2)}\n')
