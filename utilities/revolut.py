@@ -45,7 +45,7 @@ def file_ops(file, user_input, rates):
                 expenses += sheet.cell(row=row, column=10).value
 
     user_interactions.results(expenses, income, 'Revolut')
-    # revolut_file.save(file)
+    revolut_file.save(file)
 
 
 def append_sheets(user_input, origin_sheet, sell_sheet, buy_sheet):
@@ -55,20 +55,22 @@ def append_sheets(user_input, origin_sheet, sell_sheet, buy_sheet):
     Parameters:
     user_input (str): The year for which transactions are being filtered.
     origin_sheet (Worksheet): The original worksheet containing all transaction data.
-    sell_sheet (Worksheet): The worksheet where 'SELL - MARKET' transactions will be appended.
-    buy_sheet (Worksheet): The worksheet where 'BUY - MARKET' transactions will be appended.
+    sell_sheet (Worksheet): The worksheet where 'SELL' transactions will be appended.
+    buy_sheet (Worksheet): The worksheet where 'BUY' transactions will be appended.
 
     Returns:
     tuple: A tuple containing the updated sell_sheet and buy_sheet with the relevant transactions appended.
     """
 
     for row in range(2, origin_sheet.max_row + 1):
-        if origin_sheet.cell(row=row, column=1).value[:4].split('T')[0][:4] == user_input and \
-                origin_sheet.cell(row=row, column=3).value == 'SELL - MARKET':
-            row_to_copy = [cell.value for cell in origin_sheet[row]]
-            sell_sheet.append(row_to_copy)
-        elif origin_sheet.cell(row=row, column=3).value == 'BUY - MARKET':
-            row_to_copy = [cell.value for cell in origin_sheet[row]]
-            buy_sheet.append(row_to_copy)
+        try:
+            if 'SELL' in origin_sheet.cell(row=row, column=3).value:
+                row_to_copy = [cell.value for cell in origin_sheet[row]]
+                sell_sheet.append(row_to_copy)
+            elif 'BUY' in origin_sheet.cell(row=row, column=3).value:
+                row_to_copy = [cell.value for cell in origin_sheet[row]]
+                buy_sheet.append(row_to_copy)
+        except TypeError:
+            print(f'Error: {origin_sheet.cell(row=row, column=1).value}. Skipping...')
 
     return sell_sheet, buy_sheet
